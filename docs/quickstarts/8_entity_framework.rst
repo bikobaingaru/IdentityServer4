@@ -34,10 +34,15 @@ If migrations are not your preference, then you can manage the schema changes in
 
 .. Note:: SQL scripts for SqlServer are maintained for the entities in `IdentityServer4.EntityFramework`. They are located `here <https://github.com/IdentityServer/IdentityServer4.EntityFramework/tree/dev/src/Host/Migrations/IdentityServer>`_.
 
+EF Tooling for Migrations
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 In addition to tracking schema changes with EF migrations, we will also use it to create the initial schema in the database.
 This requires the use of the EF Core tooling (more details `here <https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet>`_).
 We will add those now, and unfortunately this must be done by hand-editing your `.csproj` file.
 To edit the `.csproj` by right-click the project and select "Edit projectname.csproj":
+
+.. Note:: Depending on how you created your initial project for the IdentityServer host, you might already have these tools configured in your `csproj` file. If they are, you can skip to the next section.
 
 .. image:: images/8_edit_csproj.png
 
@@ -60,7 +65,7 @@ It should look like this:
 Configuring the stores
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The next step is to replace the current calls to ``AddInMemoryClients``, ``AddInMemoryIdentityResources``, and ``AddInMemoryApiResources`` in the ``Configure`` method in `Startup.cs`.
+The next step is to replace the current calls to ``AddInMemoryClients``, ``AddInMemoryIdentityResources``, and ``AddInMemoryApiResources`` in the ``ConfigureServices`` method in `Startup.cs`.
 We will replace them with this code::
 
     const string connectionString = @"Data Source=(LocalDb)\MSSQLLocalDB;database=IdentityServer4.Quickstart.EntityFramework-2.0.0;trusted_connection=yes;";
@@ -183,7 +188,7 @@ And then we can invoke this from the ``Configure`` method::
     }
 
 Now if you run the IdentityServer project, the database should be created and seeded with the quickstart configuration data.
-You should be able to use SqlServer Management Studio or Visual Studio to connect and inspect the data.
+You should be able to use SQL Server Management Studio or Visual Studio to connect and inspect the data.
 
 .. image:: images/8_database.png
 
@@ -192,3 +197,5 @@ Run the client applications
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You should now be able to run any of the existing client applications and sign-in, get tokens, and call the API -- all based upon the database configuration.
+
+.. Note:: The code as it stands in this section still relies upon Config.cs and its fictitious users Alice and Bob. If your user list is short and static, an adjusted version of Config.cs may suffice, however you may wish to manage a larger and more fluid user list dynamically within a database. ASP.NET Identity is one option to consider, and a sample implementation of this solution is listed among the quickstarts in the next section.

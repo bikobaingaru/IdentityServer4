@@ -22,7 +22,7 @@ Start by creating a new "ASP.NET Core Web Application" project.
 
 .. image:: images/6_new_web_project.png
 
-Then select the "Web Application Template" option.
+Then select the "Web Application Template (Model-View-Controller)" option.
 
 .. image:: images/6_web_app_template.png
 
@@ -159,7 +159,7 @@ Creating the user database
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Given that this is a new ASP.NET Identity project, you will need to create the database.
-You can do this by running a command prompt from the project directory and running ``dotnet ef database update``, like this:
+You can do this by running a command prompt from the project directory and running ``dotnet ef database update -c ApplicationDbContext``, like this:
 
 .. image:: images/6_ef_database_update.png
 
